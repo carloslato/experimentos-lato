@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WP Manager Pro - Panel de Administración</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        .sidebar-collapsed .sidebar-text {
+            display: none;
+        }
+        .main-content {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .status-active {
+            background-color: #10B981;
+        }
+        .status-inactive {
+            background-color: #EF4444;
+        }
+        .status-maintenance {
+            background-color: #F59E0B;
+        }
+        .chart-container {
+            height: 300px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar bg-indigo-800 text-white w-64 flex flex-col">
+            <!-- Logo -->
+            <div class="p-4 flex items-center justify-between border-b border-indigo-700">
+                <div class="flex items-center">
+                    <i class="fab fa-wordpress text-2xl mr-3"></i>
+                    <span class="sidebar-text text-xl font-bold">WP Manager Pro</span>
+                </div>
+                <button id="toggleSidebar" class="text-white focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="flex-1 overflow-y-auto py-4">
+                <div class="px-4 mb-8">
+                    <div class="relative">
+                        <input type="text" placeholder="Buscar sitio..." class="w-full bg-indigo-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-indigo-300">
+                        <i class="fas fa-search absolute right-3 top-3 text-indigo-300"></i>
+                    </div>
+                </div>
+                
+                <div class="px-4 mb-2">
+                    <span class="sidebar-text text-xs uppercase font-semibold text-indigo-400">Administración</span>
+                </div>
+                
+                <ul>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-white bg-indigo-900">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            <span class="sidebar-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                            <i class="fas fa-globe mr-3"></i>
+                            <span class="sidebar-text">Sitios WordPress</span>
+                            <span class="sidebar-text ml-auto bg-indigo-600 text-xs px-2 py-1 rounded-full">24</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                            <i class="fas fa-server mr-3"></i>
+                            <span class="sidebar-text">Servidores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                            <i class="fas fa-users mr-3"></i>
+                            <span class="sidebar-text">Usuarios</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="px-4 mt-6 mb-2">
+                    <span class="sidebar-text text-xs uppercase font-semibold text-indigo-400">Herramientas</span>
+                </div>
+                
+                <ul>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                            <i class="fas fa-sync-alt mr-3"></i>
+                            <span class="sidebar-text">Actualizaciones</span>
+                            <span class="sidebar-text ml-auto bg-red-500 text-xs px-2 py-1 rounded-full">5</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                            <i class="fas fa-database mr-3"></i>
+                            <span class="sidebar-text">Copias de Seguridad</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                            <i class="fas fa-shield-alt mr-3"></i>
+                            <span class="sidebar-text">Seguridad</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                            <i class="fas fa-chart-line mr-3"></i>
+                            <span class="sidebar-text">Estadísticas</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="px-4 mt-6 mb-2">
+                    <span class="sidebar-text text-xs uppercase font-semibold text-indigo-400">Configuración</span>
+                </div>
+                
+                <ul>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                            <i class="fas fa-cog mr-3"></i>
+                            <span class="sidebar-text">Ajustes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-indigo-200 hover:bg-indigo-700 hover:text-white">
+                            <i class="fas fa-plug mr-3"></i>
+                            <span class="sidebar-text">Integraciones</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- User Profile -->
+            <div class="p-4 border-t border-indigo-700 flex items-center">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-10 h-10 rounded-full mr-3">
+                <div class="sidebar-text">
+                    <div class="font-medium">Admin User</div>
+                    <div class="text-xs text-indigo-300">admin@example.com</div>
+                </div>
+                <button class="sidebar-text ml-auto text-indigo-300 hover:text-white">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content flex-1 overflow-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm py-4 px-6 flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+                
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <i class="fas fa-bell"></i>
+                        <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                    </button>
+                    
+                    <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <i class="fas fa-envelope"></i>
+                    </button>
+                    
+                    <div class="relative">
+                        <button id="userMenuButton" class="flex items-center focus:outline-none">
+                            <span class="mr-2 text-gray-700">Admin</span>
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-8 h-8 rounded-full">
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content -->
+            <main class="p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white rounded-lg shadow p-6 card-hover transition duration-300">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-indigo-100 text-indigo-600 mr-4">
+                                <i class="fas fa-globe text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Sitios Activos</p>
+                                <h3 class="text-2xl font-bold">18</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-hover transition duration-300">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Actualizados</p>
+                                <h3 class="text-2xl font-bold">15</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-hover transition duration-300">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
+                                <i class="fas fa-exclamation-triangle text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Necesitan Atención</p>
+                                <h3 class="text-2xl font-bold">3</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 card-hover transition duration-300">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                                <i class="fas fa-database text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Copias de Seguridad</p>
+                                <h3 class="text-2xl font-bold">24</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts and Recent Activity -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Resource Usage -->
+                    <div class="bg-white rounded-lg shadow p-6 lg:col-span-2">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800">Uso de Recursos</h2>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 text-xs bg-indigo-100 text-indigo-700 rounded-full">7 días</button>
+                                <button class="px-3 py-1 text-xs bg-gray-100 text-gray-700 rounded-full">30 días</button>
+                                <button class="px-3 py-1 text-xs bg-gray-100 text-gray-700 rounded-full">90 días</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="resourceChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Actividad Reciente</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="p-2 bg-indigo-100 text-indigo-600 rounded-full mr-3">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium">Actualización completada</p>
+                                    <p class="text-xs text-gray-500">WordPress 6.2 en "ejemplo.com"</p>
+                                    <p class="text-xs text-gray-400">Hace 2 horas</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="p-2 bg-green-100 text-green-600 rounded-full mr-3">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium">Copia de seguridad exitosa</p>
+                                    <p class="text-xs text-gray-500">Para "tiendaonline.com"</p>
+                                    <p class="text-xs text-gray-400">Hace 5 horas</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="p-2 bg-red-100 text-red-600 rounded-full mr-3">
+                                    <i class="fas fa-exclamation"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium">Problema de seguridad</p>
+                                    <p class="text-xs text-gray-500">Plugin vulnerable en "blogpersonal.com"</p>
+                                    <p class="text-xs text-gray-400">Hace 1 día</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="p-2 bg-blue-100 text-blue-600 rounded-full mr-3">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium">Nuevo sitio añadido</p>
+                                    <p class="text-xs text-gray-500">"portafolio.com"</p>
+                                    <p class="text-xs text-gray-400">Hace 2 días</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- WordPress Sites Table -->
+                <div class="bg-white rounded-lg shadow overflow-hidden mb-6">
+                    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h2 class="text-lg font-semibold text-gray-800">Sitios WordPress</h2>
+                        <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <i class="fas fa-plus mr-2"></i> Añadir Sitio
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">URL</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Versión WP</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Última Copia</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded" src="https://s.w.org/style/images/about/WordPress-logotype-wmark.png" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Blog Personal</div>
+                                                <div class="text-sm text-gray-500">5 plugins</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">blogpersonal.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">6.2</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-indicator status-active"></span>
+                                        <span class="text-sm text-gray-900">Activo</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        2023-06-15
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3"><i class="fas fa-cog"></i></button>
+                                        <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-sync-alt"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded" src="https://s.w.org/style/images/about/WordPress-logotype-wmark.png" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Tienda Online</div>
+                                                <div class="text-sm text-gray-500">WooCommerce, 12 plugins</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">tiendaonline.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">5.9.3</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-indicator status-active"></span>
+                                        <span class="text-sm text-gray-900">Activo</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        2023-06-10
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3"><i class="fas fa-cog"></i></button>
+                                        <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-sync-alt"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded" src="https://s.w.org/style/images/about/WordPress-logotype-wmark.png" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Portafolio</div>
+                                                <div class="text-sm text-gray-500">3 plugins</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">portafolio.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">4.9.8</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-indicator status-inactive"></span>
+                                        <span class="text-sm text-gray-900">Inactivo</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        2023-05-28
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3"><i class="fas fa-cog"></i></button>
+                                        <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-sync-alt"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded" src="https://s.w.org/style/images/about/WordPress-logotype-wmark.png" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Sitio Corporativo</div>
+                                                <div class="text-sm text-gray-500">8 plugins</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">empresa.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">6.1.1</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-indicator status-maintenance"></span>
+                                        <span class="text-sm text-gray-900">Mantenimiento</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        2023-06-14
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mr-3"><i class="fas fa-cog"></i></button>
+                                        <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-sync-alt"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+                        <div class="text-sm text-gray-500">
+                            Mostrando <span class="font-medium">1</span> a <span class="font-medium">4</span> de <span class="font-medium">24</span> sitios
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Anterior</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Siguiente</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Actualizaciones Pendientes</h2>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                                <div>
+                                    <p class="text-sm font-medium">Blog Personal</p>
+                                    <p class="text-xs text-gray-500">2 plugins desactualizados</p>
+                                </div>
+                                <button class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full hover:bg-yellow-200">Actualizar</button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                                <div>
+                                    <p class="text-sm font-medium">Tienda Online</p>
+                                    <p class="text-xs text-gray-500">WooCommerce necesita actualización</p>
+                                </div>
+                                <button class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full hover:bg-yellow-200">Actualizar</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Copias de Seguridad</h2>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                                <div>
+                                    <p class="text-sm font-medium">Programar copia</p>
+                                    <p class="text-xs text-gray-500">Configurar copias automáticas</p>
+                                </div>
+                                <button class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full hover:bg-blue-200">Configurar</button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                <div>
+                                    <p class="text-sm font-medium">Restaurar copia</p>
+                                    <p class="text-xs text-gray-500">Seleccionar sitio para restaurar</p>
+                                </div>
+                                <button class="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full hover:bg-green-200">Restaurar</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Acciones Rápidas</h2>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="p-3 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 flex flex-col items-center">
+                                <i class="fas fa-plus mb-1"></i>
+                                <span class="text-xs">Nuevo Sitio</span>
+                            </button>
+                            
+                            <button class="p-3 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 flex flex-col items-center">
+                                <i class="fas fa-plug mb-1"></i>
+                                <span class="text-xs">Instalar Plugin</span>
+                            </button>
+                            
+                            <button class="p-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 flex flex-col items-center">
+                                <i class="fas fa-paint-brush mb-1"></i>
+                                <span class="text-xs">Cambiar Tema</span>
+                            </button>
+                            
+                            <button class="p-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 flex flex-col items-center">
+                                <i class="fas fa-shield-alt mb-1"></i>
+                                <span class="text-xs">Escaneo Seguridad</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Toggle sidebar
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
+            document.querySelector('.main-content').classList.toggle('ml-64');
+            document.querySelector('.main-content').classList.toggle('ml-20');
+        });
+
+        // Resource Usage Chart
+        const ctx = document.getElementById('resourceChart').getContext('2d');
+        const resourceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                datasets: [
+                    {
+                        label: 'CPU',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        borderColor: '#3B82F6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.05)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Memoria',
+                        data: [28, 48, 40, 19, 86, 27, 90],
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Almacenamiento',
+                        data: [45, 25, 16, 36, 67, 18, 76],
+                        borderColor: '#F59E0B',
+                        backgroundColor: 'rgba(245, 158, 11, 0.05)',
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Simulate loading data
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const loadingElements = document.querySelectorAll('.loading');
+                loadingElements.forEach(el => {
+                    el.classList.remove('loading');
+                });
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
