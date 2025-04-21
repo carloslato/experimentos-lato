@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenlo - Compra y vende cerca de ti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .category-card:hover .category-icon {
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .search-bar:focus-within {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .skeleton {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <span class="text-2xl font-bold text-orange-600">Tenlo</span>
+                        <span class="ml-1 text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full">Beta</span>
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 mx-6">
+                    <div class="relative w-full max-w-xl search-bar">
+                        <input type="text" placeholder="Busca productos, marcas y más..." 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:border-orange-500">
+                        <select class="border-t border-b border-gray-300 bg-gray-100 px-3 py-2 text-gray-600 focus:outline-none">
+                            <option>Todas las categorías</option>
+                            <option>Electrónica</option>
+                            <option>Moda</option>
+                            <option>Hogar</option>
+                            <option>Deportes</option>
+                        </select>
+                        <button class="bg-orange-600 text-white px-6 py-2 rounded-r-full hover:bg-orange-700 focus:outline-none">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="flex items-center space-x-4">
+                    <a href="#" class="hidden md:block text-gray-700 hover:text-orange-600">
+                        <i class="fas fa-heart mr-1"></i> Favoritos
+                    </a>
+                    <a href="#" class="hidden md:block text-gray-700 hover:text-orange-600">
+                        <i class="fas fa-bell mr-1"></i> Notificaciones
+                    </a>
+                    <div class="dropdown relative">
+                        <button class="flex items-center space-x-1 text-gray-700 hover:text-orange-600 focus:outline-none">
+                            <i class="fas fa-user-circle text-xl"></i>
+                            <span class="hidden md:inline">Mi cuenta</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Mis compras</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Mis ventas</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Configuración</a>
+                            <div class="border-t border-gray-200"></div>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Cerrar sesión</a>
+                        </div>
+                    </div>
+                    <button class="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 focus:outline-none">
+                        <i class="fas fa-plus mr-1"></i>
+                        <span class="hidden md:inline">Vender</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Mobile Search -->
+            <div class="mt-3 md:hidden">
+                <div class="relative search-bar">
+                    <input type="text" placeholder="Buscar en Tenlo..." 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-orange-500">
+                    <button class="absolute right-3 top-2 text-gray-500">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- Hero Banner -->
+        <div class="bg-gradient-to-r from-orange-500 to-orange-700 rounded-xl p-6 mb-8 text-white">
+            <div class="max-w-2xl">
+                <h1 class="text-3xl md:text-4xl font-bold mb-3">Vende lo que ya no usas</h1>
+                <p class="text-lg mb-6">En Tenlo encuentras lo que necesitas y das una segunda vida a lo que ya no usas.</p>
+                <button class="bg-white text-orange-600 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition">
+                    Empieza a vender ahora
+                </button>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold mb-5 flex items-center">
+                <i class="fas fa-tags mr-2 text-orange-600"></i> Categorías populares
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- Category Card -->
+                <a href="#" class="category-card bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="category-icon bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-mobile-alt text-orange-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium">Electrónica</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="category-icon bg-pink-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-tshirt text-pink-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium">Moda</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="category-icon bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-home text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium">Hogar</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="category-icon bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-futbol text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium">Deportes</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="category-icon bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-car text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium">Vehículos</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="category-icon bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-baby text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium">Infantil</h3>
+                </a>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="mb-10">
+            <div class="flex justify-between items-center mb-5">
+                <h2 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-star mr-2 text-orange-600"></i> Productos destacados
+                </h2>
+                <a href="#" class="text-orange-600 hover:underline">Ver todos</a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Product Card -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1523206489230-c012c64b2b48?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                             alt="iPhone 12" class="w-full h-48 object-cover">
+                        <span class="absolute top-2 left-2 bg-orange-600 text-white text-xs px-2 py-1 rounded">Nuevo</span>
+                        <button class="absolute top-2 right-2 text-gray-400 hover:text-red-500">
+                            <i class="far fa-heart text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1 truncate">iPhone 12 128GB - Como nuevo</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-1">(24)</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Madrid, Madrid</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">€450</span>
+                            <button class="text-orange-600 hover:text-orange-800">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                             alt="Bicicleta" class="w-full h-48 object-cover">
+                        <span class="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded">Ocasión</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1 truncate">Bicicleta MTB Rockrider ST 500</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-1">(12)</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Barcelona, Barcelona</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">€220</span>
+                            <button class="text-orange-600 hover:text-orange-800">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                             alt="Sofá" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1 truncate">Sofá de piel negro 3 plazas</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-1">(8)</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Valencia, Valencia</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">€350</span>
+                            <button class="text-orange-600 hover:text-orange-800">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                             alt="Zapatillas" class="w-full h-48 object-cover">
+                        <span class="absolute top-2 left-2 bg-orange-600 text-white text-xs px-2 py-1 rounded">Nuevo</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1 truncate">Zapatillas Nike Air Max 270</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-1">(36)</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Sevilla, Sevilla</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">€90</span>
+                            <button class="text-orange-600 hover:text-orange-800">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recently Added -->
+        <section class="mb-10">
+            <div class="flex justify-between items-center mb-5">
+                <h2 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-clock mr-2 text-orange-600"></i> Recién añadidos
+                </h2>
+                <a href="#" class="text-orange-600 hover:underline">Ver todos</a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Product Card - Loading Skeleton -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100">
+                    <div class="skeleton bg-gray-200 w-full h-48"></div>
+                    <div class="p-4">
+                        <div class="skeleton bg-gray-200 h-5 w-3/4 mb-2"></div>
+                        <div class="skeleton bg-gray-200 h-4 w-1/2 mb-3"></div>
+                        <div class="skeleton bg-gray-200 h-4 w-1/3 mb-3"></div>
+                        <div class="flex justify-between">
+                            <div class="skeleton bg-gray-200 h-6 w-1/4"></div>
+                            <div class="skeleton bg-gray-200 h-6 w-6 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                             alt="Reloj" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1 truncate">Reloj Casio Edifice EFR-S108D</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-1">(5)</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Bilbao, Vizcaya</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">€120</span>
+                            <button class="text-orange-600 hover:text-orange-800">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                             alt="Bicicleta" class="w-full h-48 object-cover">
+                        <span class="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded">Ocasión</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1 truncate">Bicicleta MTB Rockrider ST 500</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-1">(12)</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Barcelona, Barcelona</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">€220</span>
+                            <button class="text-orange-600 hover:text-orange-800">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                             alt="Bicicleta" class="w-full h-48 object-cover">
+                        <span class="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded">Ocasión</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1 truncate">Bicicleta MTB Rockrider ST 500</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm ml-1">(12)</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-3">Barcelona, Barcelona</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">€220</span>
+                            <button class="text-orange-600 hover:text-orange-800">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- App Download Banner -->
+        <section class="bg-gradient-to-r from-orange-600 to-orange-800 rounded-xl p-6 mb-8 text-white">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-2xl font-bold mb-2">Descarga la app de Tenlo</h2>
+                    <p class="mb-4">Compra y vende desde cualquier lugar con nuestra aplicación móvil</p>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                        <button class="bg-black text-white px-4 py-2 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-apple text-2xl mr-2"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Descárgalo en</div>
+                                <div class="font-semibold">App Store</div>
+                            </div>
+                        </button>
+                        <button class="bg-black text-white px-4 py-2 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-google-play text-2xl mr-2"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Disponible en</div>
+                                <div class="font-semibold">Google Play</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://cdn.pixabay.com/photo/2017/01/22/12/07/imac-1999636_1280.png" 
+                         alt="App Preview" class="w-64 h-auto">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Tenlo</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Sobre nosotros</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Trabaja con nosotros</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Prensa</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Responsabilidad social</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Ayuda</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Centro de ayuda</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Cómo vender</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Cómo comprar</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Preguntas frecuentes</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Términos y condiciones</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Política de privacidad</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Política de cookies</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Aviso legal</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Síguenos</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white text-xl"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Descarga la app</h3>
+                    <div class="flex space-x-2">
+                        <a href="#" class="bg-black text-white p-2 rounded flex items-center">
+                            <i class="fab fa-apple mr-1"></i>
+                            <span class="text-xs">App Store</span>
+                        </a>
+                        <a href="#" class="bg-black text-white p-2 rounded flex items-center">
+                            <i class="fab fa-google-play mr-1"></i>
+                            <span class="text-xs">Google Play</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2023 Tenlo - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Action Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="fab" class="bg-orange-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-orange-700 focus:outline-none transition">
+            <i class="fas fa-plus text-xl"></i>
+        </button>
+        <div id="fab-options" class="hidden absolute bottom-16 right-0 space-y-2">
+            <a href="#" class="bg-orange-500 text-white w-12 h-12 rounded-full shadow flex items-center justify-center hover:bg-orange-600">
+                <i class="fas fa-camera"></i>
+            </a>
+            <a href="#" class="bg-green-500 text-white w-12 h-12 rounded-full shadow flex items-center justify-center hover:bg-green-600">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Toggle FAB options
+        document.getElementById('fab').addEventListener('click', function() {
+            const options = document.getElementById('fab-options');
+            options.classList.toggle('hidden');
+        });
+
+        // Close FAB options when clicking outside
+        document.addEventListener('click', function(event) {
+            const fab = document.getElementById('fab');
+            const fabOptions = document.getElementById('fab-options');
+            
+            if (!fab.contains(event.target) && !fabOptions.contains(event.target)) {
+                fabOptions.classList.add('hidden');
+            }
+        });
+
+        // Simulate loading for skeleton
+        setTimeout(() => {
+            const skeleton = document.querySelector('.skeleton');
+            if (skeleton) {
+                skeleton.parentNode.innerHTML = `
+                    <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                                 alt="Auriculares" class="w-full h-48 object-cover">
+                            <span class="absolute top-2 left-2 bg-orange-600 text-white text-xs px-2 py-1 rounded">Nuevo</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg mb-1 truncate">Auriculares Sony WH-1000XM4</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-gray-500 text-sm ml-1">(42)</span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-3">Málaga, Málaga</p>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-lg">€250</span>
+                                <button class="text-orange-600 hover:text-orange-800">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }, 1500);
+    </script>
+</body>
+</html>
