@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Gestor Financiero Personal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        .savings-card {
+            transition: all 0.3s ease;
+        }
+        .savings-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e5e7eb;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .transaction-item {
+            transition: all 0.2s ease;
+        }
+        .transaction-item:hover {
+            background-color: #f9fafb;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        .account-balance {
+            position: relative;
+            overflow: hidden;
+        }
+        .account-balance::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- Sidebar -->
+        <div class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg">
+            <div class="flex items-center justify-center h-16 px-4 gradient-bg">
+                <h1 class="text-xl font-bold text-white">Mi Economía</h1>
+            </div>
+            <nav class="mt-6">
+                <div class="px-4 py-2">
+                    <a href="#" class="flex items-center px-4 py-2 text-gray-700 bg-purple-100 rounded-lg">
+                        <i class="fas fa-home mr-3"></i>
+                        <span class="font-medium">Dashboard</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-wallet mr-3"></i>
+                        <span>Transacciones</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-piggy-bank mr-3"></i>
+                        <span>Ahorros</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-chart-pie mr-3"></i>
+                        <span>Presupuestos</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-church mr-3"></i>
+                        <span>Diezmos</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-exchange-alt mr-3"></i>
+                        <span>Transferencias</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                        <i class="fas fa-file-invoice-dollar mr-3"></i>
+                        <span>Reportes</span>
+                    </a>
+                </div>
+            </nav>
+            <div class="absolute bottom-0 w-full p-4 border-t border-gray-200">
+                <div class="flex items-center">
+                    <img class="w-8 h-8 rounded-full" src="https://randomuser.me/api/portraits/women/44.jpg" alt="User">
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-700">María González</p>
+                        <p class="text-xs text-gray-500">Usuario Premium</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="ml-64">
+            <!-- Header -->
+            <header class="flex items-center justify-between h-16 px-6 bg-white shadow-sm">
+                <div class="flex items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Resumen Financiero</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="absolute left-3 top-1/2 transform -translate-y-1/2 fas fa-search text-gray-400"></i>
+                        <input type="text" placeholder="Buscar..." class="pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <button class="p-2 text-gray-500 rounded-full hover:bg-gray-100">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="p-2 text-gray-500 rounded-full hover:bg-gray-100">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <main class="p-6">
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="p-6 bg-white rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Balance Total</p>
+                                <p class="mt-1 text-2xl font-semibold text-gray-900">$24,580.00</p>
+                            </div>
+                            <div class="p-3 rounded-lg bg-purple-50">
+                                <i class="text-purple-600 fas fa-coins"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">Último mes</span>
+                                <span class="font-medium text-green-500">+12.5%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-white rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Ingresos</p>
+                                <p class="mt-1 text-2xl font-semibold text-gray-900">$3,200.00</p>
+                            </div>
+                            <div class="p-3 rounded-lg bg-green-50">
+                                <i class="text-green-600 fas fa-arrow-down"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">Último mes</span>
+                                <span class="font-medium text-green-500">+5.2%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-white rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Gastos</p>
+                                <p class="mt-1 text-2xl font-semibold text-gray-900">$1,840.00</p>
+                            </div>
+                            <div class="p-3 rounded-lg bg-red-50">
+                                <i class="text-red-600 fas fa-arrow-up"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">Último mes</span>
+                                <span class="font-medium text-red-500">+8.7%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-white rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Diezmo</p>
+                                <p class="mt-1 text-2xl font-semibold text-gray-900">$320.00</p>
+                            </div>
+                            <div class="p-3 rounded-lg bg-blue-50">
+                                <i class="text-blue-600 fas fa-hands-praying"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">Este mes</span>
+                                <span class="font-medium text-green-500">Pagado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Accounts -->
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                    <!-- Income vs Expenses Chart -->
+                    <div class="p-6 bg-white rounded-xl shadow-sm">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-medium text-gray-900">Ingresos vs Gastos</h3>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">Mensual</button>
+                                <button class="px-3 py-1 text-xs text-gray-500 hover:bg-gray-100 rounded-full">Anual</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="incomeExpenseChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Savings Goals -->
+                    <div class="p-6 bg-white rounded-xl shadow-sm">
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-900">Metas de Ahorro</h3>
+                            <p class="text-sm text-gray-500">Progreso de tus cajas de ahorro</p>
+                        </div>
+                        <div class="space-y-5">
+                            <div class="savings-card p-4 border border-gray-100 rounded-lg">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="p-2 rounded-lg bg-blue-100">
+                                            <i class="text-blue-600 fas fa-plane"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="font-medium text-gray-900">Viajes</h4>
+                                            <p class="text-sm text-gray-500">$1,200 / $3,000</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium text-blue-600">40%</span>
+                                </div>
+                                <div class="mt-3 progress-bar">
+                                    <div class="progress-fill bg-blue-500" style="width: 40%"></div>
+                                </div>
+                            </div>
+
+                            <div class="savings-card p-4 border border-gray-100 rounded-lg">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="p-2 rounded-lg bg-green-100">
+                                            <i class="text-green-600 fas fa-heartbeat"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="font-medium text-gray-900">Salud</h4>
+                                            <p class="text-sm text-gray-500">$850 / $2,000</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium text-green-600">42.5%</span>
+                                </div>
+                                <div class="mt-3 progress-bar">
+                                    <div class="progress-fill bg-green-500" style="width: 42.5%"></div>
+                                </div>
+                            </div>
+
+                            <div class="savings-card p-4 border border-gray-100 rounded-lg">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <div class="p-2 rounded-lg bg-purple-100">
+                                            <i class="text-purple-600 fas fa-home"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="font-medium text-gray-900">Familiar</h4>
+                                            <p class="text-sm text-gray-500">$3,750 / $5,000</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium text-purple-600">75%</span>
+                                </div>
+                                <div class="mt-3 progress-bar">
+                                    <div class="progress-fill bg-purple-500" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accounts and Recent Transactions -->
+                <div class="grid grid-cols-1 gap-6 mt-8 lg:grid-cols-3">
+                    <!-- Bank Accounts -->
+                    <div class="lg:col-span-1">
+                        <div class="p-6 bg-white rounded-xl shadow-sm">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-medium text-gray-900">Cuentas Bancarias</h3>
+                                <p class="text-sm text-gray-500">Saldo actual de tus cuentas</p>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="account-balance p-4 border border-gray-100 rounded-lg">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <img src="https://logo.clearbit.com/bbva.com" alt="BBVA" class="w-8 h-8">
+                                            <div class="ml-3">
+                                                <h4 class="font-medium text-gray-900">BBVA</h4>
+                                                <p class="text-sm text-gray-500">**** 4582</p>
+                                            </div>
+                                        </div>
+                                        <span class="font-medium text-gray-900">$8,420.00</span>
+                                    </div>
+                                </div>
+
+                                <div class="account-balance p-4 border border-gray-100 rounded-lg">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <img src="https://logo.clearbit.com/santander.com" alt="Santander" class="w-8 h-8">
+                                            <div class="ml-3">
+                                                <h4 class="font-medium text-gray-900">Santander</h4>
+                                                <p class="text-sm text-gray-500">**** 6731</p>
+                                            </div>
+                                        </div>
+                                        <span class="font-medium text-gray-900">$5,760.00</span>
+                                    </div>
+                                </div>
+
+                                <div class="account-balance p-4 border border-gray-100 rounded-lg">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <img src="https://logo.clearbit.com/hsbc.com" alt="HSBC" class="w-8 h-8">
+                                            <div class="ml-3">
+                                                <h4 class="font-medium text-gray-900">HSBC</h4>
+                                                <p class="text-sm text-gray-500">**** 9025</p>
+                                            </div>
+                                        </div>
+                                        <span class="font-medium text-gray-900">$3,200.00</span>
+                                    </div>
+                                </div>
+
+                                <button class="w-full py-2 mt-4 text-sm font-medium text-purple-600 bg-purple-50 rounded-lg hover:bg-purple-100">
+                                    <i class="fas fa-plus mr-2"></i> Agregar cuenta
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Transactions -->
+                    <div class="lg:col-span-2">
+                        <div class="p-6 bg-white rounded-xl shadow-sm">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-900">Transacciones Recientes</h3>
+                                    <p class="text-sm text-gray-500">Últimos movimientos</p>
+                                </div>
+                                <button class="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700">
+                                    <i class="fas fa-plus mr-2"></i> Nueva transacción
+                                </button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Descripción</th>
+                                            <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Categoría</th>
+                                            <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Cuenta</th>
+                                            <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Monto</th>
+                                            <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr class="transaction-item">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                                        <i class="text-green-600 fas fa-shopping-bag"></i>
+                                                    </div>
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">Supermercado</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs text-green-800 bg-green-100 rounded-full">Alimentos</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">BBVA</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">-$125.40</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Hoy, 10:45 AM</td>
+                                        </tr>
+
+                                        <tr class="transaction-item">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                                        <i class="text-blue-600 fas fa-money-bill-wave"></i>
+                                                    </div>
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">Salario</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs text-blue-800 bg-blue-100 rounded-full">Ingreso</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Santander</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">+$3,200.00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ayer, 9:00 AM</td>
+                                        </tr>
+
+                                        <tr class="transaction-item">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                                        <i class="text-purple-600 fas fa-hands-praying"></i>
+                                                    </div>
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">Diezmo</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs text-purple-800 bg-purple-100 rounded-full">Ofrenda</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">BBVA</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">-$320.00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ayer, 8:30 AM</td>
+                                        </tr>
+
+                                        <tr class="transaction-item">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0 w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                                                        <i class="text-yellow-600 fas fa-lightbulb"></i>
+                                                    </div>
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">Luz</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs text-yellow-800 bg-yellow-100 rounded-full">Servicios</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">HSBC</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">-$85.20</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15 Jun, 2:15 PM</td>
+                                        </tr>
+
+                                        <tr class="transaction-item">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0 w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                                        <i class="text-red-600 fas fa-tshirt"></i>
+                                                    </div>
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">Ropa</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs text-red-800 bg-red-100 rounded-full">Vestimenta</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Santander</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">-$65.00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">14 Jun, 5:30 PM</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="flex items-center justify-between px-6 py-3 bg-gray-50">
+                                <div class="text-sm text-gray-500">Mostrando 5 de 23 transacciones</div>
+                                <button class="text-sm font-medium text-purple-600 hover:text-purple-700">Ver todas</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Income vs Expenses Chart
+        const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
+        const incomeExpenseChart = new Chart(incomeExpenseCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                datasets: [
+                    {
+                        label: 'Ingresos',
+                        data: [2800, 2900, 3000, 3100, 3200, 3200],
+                        backgroundColor: '#10B981',
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Gastos',
+                        data: [1500, 1600, 1700, 1750, 1800, 1840],
+                        backgroundColor: '#EF4444',
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': $' + context.raw.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Sample data for savings goals
+        const savingsGoals = [
+            { name: 'Viajes', current: 1200, target: 3000, color: 'blue' },
+            { name: 'Salud', current: 850, target: 2000, color: 'green' },
+            { name: 'Familiar', current: 3750, target: 5000, color: 'purple' }
+        ];
+
+        // Update progress bars
+        document.addEventListener('DOMContentLoaded', function() {
+            savingsGoals.forEach(goal => {
+                const percentage = (goal.current / goal.target) * 100;
+                const progressFill = document.querySelector(`.savings-card:nth-child(${savingsGoals.indexOf(goal) + 1}) .progress-fill`);
+                progressFill.style.width = `${percentage}%`;
+            });
+        });
+    </script>
+</body>
+</html>
