@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamatec - Soluciones en Energía</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-slide {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://gamatec.com.pe/wp-content/uploads/2025/05/gwp-carru2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-button {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+            }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#">
+                        <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/logo-gamatec-website2.png" alt="Gamatec Logo" class="h-12">
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-blue-600 font-medium hover:text-blue-800">Inicio</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Servicios</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Productos</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Contáctanos</a>
+                </nav>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <a href="#" class="block py-2 text-blue-600 font-medium">Inicio</a>
+                <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Servicios</a>
+                <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Productos</a>
+                <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Contáctanos</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <div class="relative">
+        <div class="hero-slide h-96 flex items-center">
+            <div class="container mx-auto px-4 text-white">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">El poder de la tecnología Online</h1>
+                <p class="text-xl mb-6">Con el servicio y soporte técnico de <span class="font-bold">GAMATEC</span></p>
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg inline-block transition duration-300">
+                    Solicita tu cotización
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Products -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Nuestros Productos Destacados</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/g20-1.jpg" alt="UPS Monofásico" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">UPS Monofásico</h3>
+                        <p class="text-gray-600 mb-4">1KVA - 10KVA</p>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                            Más información <i class="fas fa-chevron-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/g12.jpg" alt="UPS Trifásico" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">UPS Trifásico</h3>
+                        <p class="text-gray-600 mb-4">10KVA - 500KVA</p>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                            Más información <i class="fas fa-chevron-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/g9.jpg" alt="Baterías para UPS" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Baterías para UPS</h3>
+                        <p class="text-gray-600 mb-4">Garantizan la continuidad</p>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                            Más información <i class="fas fa-chevron-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/g10.jpg" alt="Estabilizadores" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Estabilizadores</h3>
+                        <p class="text-gray-600 mb-4">Protección eléctrica</p>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                            Más información <i class="fas fa-chevron-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+                    <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/gwp-carru1.jpg" alt="Gamatec Team" class="rounded-lg shadow-lg w-full">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">Venta de UPS en Lima</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        En Gamatec contamos con UPS monofásicos y trifásicos en diferentes marcas y modelos así mismo ofrecemos baterías para UPS de gran potencia y durabilidad.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Nuestra fabricación garantiza productos confiables y adaptados a tus necesidades, cumpliendo con los más <span class="font-bold">altos estándares de calidad.</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-center transition duration-300">
+                            Estabilizadores
+                        </a>
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-center transition duration-300">
+                            Transformadores
+                        </a>
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-center transition duration-300">
+                            Tableros Eléctricos
+                        </a>
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-center transition duration-300">
+                            Supresores
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 bg-blue-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">¡No dejes que tu negocio se apague!</h2>
+            <p class="text-xl mb-8">¡Cotizaciones rápidas y efectivas! Escríbenos hoy mismo.</p>
+            <a href="#" class="bg-white text-blue-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg inline-block transition duration-300">
+                Contáctanos
+            </a>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Nuestros Productos</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/g19.jpg" alt="Producto 1" class="w-full h-48 object-cover rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/g21.jpg" alt="Producto 2" class="w-full h-48 object-cover rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/g23.jpg" alt="Producto 3" class="w-full h-48 object-cover rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/gwp-carru3.jpg" alt="Producto 4" class="w-full h-48 object-cover rounded-lg shadow-md hover:shadow-lg transition duration-300">
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 bg-blue-600 text-white p-8">
+                        <h2 class="text-2xl font-bold mb-4">Contáctanos</h2>
+                        <p class="mb-6">Estamos aquí para ayudarte con cualquier pregunta sobre nuestros productos y servicios.</p>
+                        <div class="mb-4">
+                            <h3 class="font-bold mb-2">Dirección</h3>
+                            <p>Av. Industrial 123, Lima, Perú</p>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-bold mb-2">Teléfono</h3>
+                            <p>+51 123 456 789</p>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-2">Email</h3>
+                            <p>info@gamatec.com.pe</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 p-8">
+                        <form>
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Nombre</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            </div>
+                            <div class="mb-4">
+                                <label for="phone" class="block text-gray-700 font-medium mb-2">Teléfono</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-700 font-medium mb-2">Mensaje</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                                ENVIAR MENSAJE
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- Logo and Social -->
+                <div>
+                    <img src="https://gamatec.com.pe/wp-content/uploads/2025/05/logo-gamatec-texto-blanco-1-1024x576.png" alt="Gamatec Logo" class="h-16 mb-4">
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-linkedin-in text-xl"></i></a>
+                        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-youtube text-xl"></i></a>
+                        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Services -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Servicios</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Mantenimiento Preventivo</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Mantenimiento Correctivo</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Instalación de UPS</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Cambio de baterías para UPS</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Instalación de sistema pozo a tierra</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Products -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Productos</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Sistemas UPS</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Estabilizadores</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Transformadores</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Pozo a Tierra</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Baterías para UPS</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Hablar con un especialista</h3>
+                    <a href="#" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg mb-4 transition duration-300">
+                        <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                    </a>
+                    <p class="text-gray-300">Estamos disponibles para responder tus consultas.</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>© 2025 Gamatec. Todos los derechos reservados.</p>
+                <p class="mt-2">Powered by <a href="#" class="text-blue-400 hover:text-blue-300">Gamatec</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Button -->
+    <div class="fixed bottom-8 right-8">
+        <button class="chat-button bg-green-500 hover:bg-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition duration-300">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </button>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Simple slider functionality
+        let currentSlide = 0;
+        const slides = [
+            {
+                title: "Suministro de UPS",
+                description: "El poder de la tecnología Online con el servicio y soporte técnico de GAMATEC",
+                image: "https://gamatec.com.pe/wp-content/uploads/2025/05/gwp-carru2.jpg"
+            },
+            {
+                title: "Transformadores y Estabilizadores",
+                description: "Protege tus equipos electrónicos, y evita que se malogren en corto tiempo",
+                image: "https://gamatec.com.pe/wp-content/uploads/2025/05/gwp-carru1.jpg"
+            }
+        ];
+        
+        function changeSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            const slide = slides[currentSlide];
+            const hero = document.querySelector('.hero-slide');
+            
+            hero.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${slide.image}')`;
+            hero.querySelector('h1').textContent = slide.title;
+            hero.querySelector('p').innerHTML = slide.description.replace('GAMATEC', '<span class="font-bold">GAMATEC</span>');
+        }
+        
+        // Change slide every 5 seconds
+        setInterval(changeSlide, 5000);
+    </script>
+</body>
+</html>
