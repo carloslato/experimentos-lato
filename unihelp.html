@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>unihelp - Plataforma de Aprendizaje</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        accent: '#F59E0B',
+                        dark: '#1F2937',
+                        light: '#F9FAFB'
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .section-min-height {
+                min-height: calc(100vh - 80px);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+        }
+    </style>
+</head>
+<body class="font-poppins bg-light">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-white text-xl"></i>
+                </div>
+                <span class="ml-3 text-xl font-bold text-dark">uni<span class="text-primary">help</span></span>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#inicio" class="text-dark hover:text-primary font-medium">Inicio</a>
+                <a href="#caracteristicas" class="text-dark hover:text-primary font-medium">Características</a>
+                <a href="#beneficios" class="text-dark hover:text-primary font-medium">Beneficios</a>
+                <a href="#testimonios" class="text-dark hover:text-primary font-medium">Testimonios</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <button class="hidden md:block text-dark hover:text-primary font-medium">Iniciar Sesión</button>
+                <button class="bg-primary hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-full transition duration-300">
+                    Registrarse
+                </button>
+                <button class="md:hidden text-dark">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="section-min-height bg-gradient-to-r from-primary to-indigo-700 text-white">
+        <div class="container mx-auto px-4 py-20 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Conecta, Aprende y Gana como Tutor</h1>
+                <p class="text-xl mb-8 text-indigo-100">Plataforma donde estudiantes ofrecen tutorías en materias que dominan, ayudando a otros a aprender y generando ingresos.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button class="bg-secondary hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300">
+                        Comenzar como Tutor
+                    </button>
+                    <button class="bg-white hover:bg-gray-100 text-primary font-bold py-3 px-8 rounded-full text-lg transition duration-300">
+                        Buscar Tutoría
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-secondary opacity-20 absolute -top-6 -left-6"></div>
+                    <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-accent opacity-20 absolute -bottom-6 -right-6"></div>
+                    <div class="relative bg-white rounded-2xl shadow-xl p-6 w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="flex justify-center mb-4">
+                                <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center">
+                                    <i class="fas fa-chalkboard-teacher text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-dark font-bold text-lg mb-2">Aprende de tus compañeros</h3>
+                            <p class="text-gray-600 text-sm">Miles de estudiantes esperan para ayudarte</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="caracteristicas" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">¿Cómo Funciona?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Una plataforma simple y efectiva para conectar tutores y estudiantes</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Feature 1 -->
+                <div class="card-hover bg-light rounded-2xl p-8 text-center">
+                    <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-user-plus text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">Regístrate como Tutor</h3>
+                    <p class="text-gray-600">Crea tu perfil indicando las materias en las que destacas y tus horarios disponibles.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="card-hover bg-light rounded-2xl p-8 text-center">
+                    <div class="w-20 h-20 rounded-full bg-secondary flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-calendar-check text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">Agenda Clases</h3>
+                    <p class="text-gray-600">Los estudiantes reservan sesiones contigo según tu disponibilidad y especialidades.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="card-hover bg-light rounded-2xl p-8 text-center">
+                    <div class="w-20 h-20 rounded-full bg-accent flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-money-bill-wave text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">Gana Dinero</h3>
+                    <p class="text-gray-600">Recibe pagos por tus clases y mejora tu experiencia educativa mientras ayudas a otros.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="beneficios" class="py-20 bg-light">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">Beneficios para Todos</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Una plataforma que transforma la educación creando oportunidades para tutores y estudiantes</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <h3 class="text-2xl font-bold text-primary mb-6">Para Tutores</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span class="text-dark">Genera ingresos compartiendo tu conocimiento</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span class="text-dark">Mejora tus habilidades de enseñanza</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span class="text-dark">Construye tu reputación académica</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span class="text-dark">Flexibilidad para elegir tus horarios</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span class="text-dark">Accede a herramientas de enseñanza digitales</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 md:pl-10">
+                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <h3 class="text-2xl font-bold text-secondary mb-6">Para Estudiantes</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                                <span class="text-dark">Accede a tutorías personalizadas</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                                <span class="text-dark">Aprende de compañeros con experiencia</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                                <span class="text-dark">Precios más accesibles que tutores profesionales</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                                <span class="text-dark">Diversifica tu aprendizaje con diferentes enfoques</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                                <span class="text-dark">Horarios flexibles que se adaptan a tu agenda</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonios" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">Lo que Dicen Nuestros Usuarios</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Historias reales de éxito en nuestra comunidad de aprendizaje</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="card-hover bg-light rounded-2xl p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                            <i class="fas fa-user text-gray-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-dark">María González</h4>
+                            <p class="text-gray-600 text-sm">Tutora de Matemáticas</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"Gracias a esta plataforma, he podido financiar parte de mis estudios mientras ayudo a otros estudiantes a entender conceptos que a mí me costaron trabajo."</p>
+                    <div class="flex text-accent mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="card-hover bg-light rounded-2xl p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                            <i class="fas fa-user text-gray-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-dark">Carlos Ramírez</h4>
+                            <p class="text-gray-600 text-sm">Estudiante de Física</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"Encontré un tutor que realmente entendía mis dudas. Las explicaciones eran claras porque venía de alguien de mi misma edad y contexto académico."</p>
+                    <div class="flex text-accent mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="card-hover bg-light rounded-2xl p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                            <i class="fas fa-user text-gray-600"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-dark">Lucía Fernández</h4>
+                            <p class="text-gray-600 text-sm">Tutora de Química</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"La flexibilidad de horarios me permite compatibilizar mis clases con mis horas de estudio. Además, he mejorado mis habilidades de comunicación al explicar conceptos complejos."</p>
+                    <div class="flex text-accent mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-primary to-indigo-700 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">¿Listo para Comenzar?</h2>
+            <p class="text-xl mb-10 text-indigo-100 max-w-2xl mx-auto">Únete a nuestra comunidad de aprendizaje y descubre una nueva forma de enseñar y aprender</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <button class="bg-secondary hover:bg-green-600 text-white font-bold py-4 px-10 rounded-full text-lg transition duration-300">
+                    Registrarme como Tutor
+                </button>
+                <button class="bg-white hover:bg-gray-100 text-primary font-bold py-4 px-10 rounded-full text-lg transition duration-300">
+                    Buscar una Tutoría
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-white"></i>
+                        </div>
+                        <span class="ml-3 text-xl font-bold">Tutorías<span class="text-primary">Estudiantiles</span></span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Conectando mentes, compartiendo conocimiento y generando oportunidades para estudiantes.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-6">Plataforma</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Inicio</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Cómo funciona</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Tutores</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Precios</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-6">Recursos</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Ayuda</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Tutoriales</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Políticas</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-6">Suscríbete</h3>
+                    <p class="text-gray-400 mb-4">Recibe las últimas novedades y actualizaciones</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Tu email" class="px-4 py-2 w-full rounded-l-lg text-dark">
+                        <button class="bg-primary hover:bg-indigo-700 px-4 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 Tutorías Estudiantiles. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
